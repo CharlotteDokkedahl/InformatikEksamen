@@ -211,10 +211,10 @@ class Cirkler {
     this.xCirkel += this.speedX;
     this.yCirkel += this.speedY;
 
-    if (this.xCirkel < this.GlasP1x + this.rCirkel) this.speedX *= -1;
-    if (this.xCirkel > this.GlasP4x - this.rCirkel) this.speedX *= -1;
-    if (this.yCirkel < this.GlasP1y + this.rCirkel) this.speedY *= -1;
-    if (this.yCirkel > this.GlasP2y - this.rCirkel) this.speedY *= -1;
+    if (this.xCirkel < this.GlasP1x + this.rCirkel+2) this.speedX *= -1;
+    if (this.xCirkel > this.GlasP4x - this.rCirkel-2) this.speedX *= -1;
+    if (this.yCirkel < this.GlasP1y + this.rCirkel+2) this.speedY *= -1;
+    if (this.yCirkel > this.GlasP2y - this.rCirkel-2) this.speedY *= -1;
   }
 
   Interaktion(anden) {

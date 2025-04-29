@@ -1,19 +1,6 @@
 function setup() 
 {
   createCanvas(displayWidth-600,displayHeight-500);
-}
-
-function draw() 
-{
-  background(220);
-  
-  rect(500,50,350,270);
-  
-  textSize(20);
-  text('Teori og brugervejledning',510,35);
-  text('Tempratur:',505,360);
-  text('Stoffer:',625,360);
-  text('Volume:',745,360);
   
   let button1 = createButton('Større volume');
   button1.position(740, 370);
@@ -38,4 +25,18 @@ function draw()
   let button6 = createButton('Tilføj kulde');
   button6.position(500, 400);
   button6.size(110,30);
+  
+}
+
+function draw() 
+{
+  background(220);
+  
+  rect(500,50,350,270);
+  
+  textSize(20);
+  text('Teori og brugervejledning',510,35);
+  text('Tempratur:',505,360);
+  text('Stoffer:',625,360);
+  text('Volume:',745,360);
 }

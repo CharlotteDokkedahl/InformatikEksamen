@@ -11,29 +11,29 @@ function setup() {
   createCanvas(870, 450);
 
   for (let i = 0; i < antalCirklerLille; i++) {
-    mangeCirklerLille.push(new Cirkler(random(0, 400), random(0, 400), 7));
+    mangeCirklerLille.push(new Cirkler(3));
   }
 
   for (let j = 0; j < antalCirklerStor; j++) {
-    mangeCirklerStor.push(new Cirkler(random(0, 400), random(0, 400), 7));
+    mangeCirklerStor.push(new Cirkler(3));
   }
 
   for (let o = 0; o < antalOrangeCirkler; o++) {
-    orangeCirkler.push(new Cirkler(random(0, 400), random(0, 400), 10));
+    orangeCirkler.push(new Cirkler(5));
   }
 }
 
 function draw() {
   background(220);
 
-  // små
+  // små lilla
   for (let i = mangeCirklerLille.length - 1; i >= 0; i--) {
     mangeCirklerLille[i].TegnCirkel(100, 200, 170);
     mangeCirklerLille[i].FlytCirkel();
     mangeCirklerLille[i].Glas();
   }
 
-  // store
+  // store grønne
   for (let j = mangeCirklerStor.length - 1; j >= 0; j--) {
     mangeCirklerStor[j].TegnCirkel(150, 100, 250);
     mangeCirklerStor[j].FlytCirkel();
@@ -47,17 +47,22 @@ function draw() {
 
   // orange
   for (let o = orangeCirkler.length - 1; o >= 0; o--) {
-    orangeCirkler[o].TegnCirkel(220);
+    orangeCirkler[o].TegnCirkel(250);
     orangeCirkler[o].FlytCirkel();
   }
 
-  // reaktion mellem lille og stor -> rød
+  // reaktion mellem lilla og grøn => rød
   for (let i = mangeCirklerLille.length - 1; i >= 0; i--) {
     for (let j = mangeCirklerStor.length - 1; j >= 0; j--) {
       if (mangeCirklerLille[i].Interaktion(mangeCirklerStor[j])) {
-        let midX = (mangeCirklerLille[i].x + mangeCirklerStor[j].x) / 2;
-        let midY = (mangeCirklerLille[i].y + mangeCirklerStor[j].y) / 2;
-        nyCirkler.push(new Cirkler(midX, midY, 10));
+        // lav en ny rød cirkel midt imellem
+        let midX = (mangeCirklerLille[i].xCirkel + mangeCirklerStor[j].xCirkel) / 2;
+        let midY = (mangeCirklerLille[i].yCirkel + mangeCirklerStor[j].yCirkel) / 2;
+
+        let ny = new Cirkler(5);
+        ny.xCirkel = midX;
+        ny.yCirkel = midY;
+        nyCirkler.push(ny);
 
         mangeCirklerLille.splice(i, 1);
         mangeCirklerStor.splice(j, 1);
@@ -66,12 +71,24 @@ function draw() {
     }
   }
 
-  // reaktion mellem orange og rød -> lille og stor
+  // reaktion mellem orange og rød => lilla og grøn
   for (let o = 0; o < orangeCirkler.length; o++) {
     for (let r = nyCirkler.length - 1; r >= 0; r--) {
       if (orangeCirkler[o].Interaktion(nyCirkler[r])) {
-        mangeCirklerLille.push(new Cirkler(nyCirkler[r].x + random(-20, 20), nyCirkler[r].y + random(-20, 20), 7));
-        mangeCirklerStor.push(new Cirkler(nyCirkler[r].x + random(-20, 20), nyCirkler[r].y + random(-20, 20), 7));
+        let rx = nyCirkler[r].xCirkel;
+        let ry = nyCirkler[r].yCirkel;
+
+        let nyLilla = new Cirkler(3);
+        nyLilla.xCirkel = rx + random(-5, 5);
+        nyLilla.yCirkel = ry + random(-5, 5);
+
+        let nyGrøn = new Cirkler(3);
+        nyGrøn.xCirkel = rx + random(-5, 5);
+        nyGrøn.yCirkel = ry + random(-5, 5);
+
+        mangeCirklerLille.push(nyLilla);
+        mangeCirklerStor.push(nyGrøn);
+
         nyCirkler.splice(r, 1);
         break;
       }
@@ -80,13 +97,7 @@ function draw() {
 }
 
 class Cirkler {
-  constructor(x, y, r) {
-    this.xCirkel = x;
-    this.yCirkel = y;
-    this.rCirkel = r;
-    this.speedX = random(-3, 3);
-    this.speedY = random(-3, 3);
-
+  constructor(r) {
     this.GlasP1x = 120;
     this.GlasP1y = 200;
     this.GlasP2x = 120;
@@ -95,6 +106,12 @@ class Cirkler {
     this.GlasP3y = 400;
     this.GlasP4x = 320;
     this.GlasP4y = 200;
+
+    this.xCirkel = random(this.GlasP1x + 5, this.GlasP4x - 5);
+    this.yCirkel = random(this.GlasP1y + 5, this.GlasP2y - 5);
+    this.rCirkel = r;
+    this.speedX = random(-3, 3);
+    this.speedY = random(-3,3);
   }
 
   TegnCirkel(red, green, blue) {
@@ -107,10 +124,10 @@ class Cirkler {
     this.xCirkel += this.speedX;
     this.yCirkel += this.speedY;
 
-    if (this.xCirkel < 0) this.speedX *= -1;
-    if (this.xCirkel > width) this.speedX *= -1;
-    if (this.yCirkel < 0) this.speedY *= -1;
-    if (this.yCirkel > height) this.speedY *= -1;
+    if (this.xCirkel < this.GlasP1x + this.rCirkel) this.speedX *= -1;
+    if (this.xCirkel > this.GlasP4x - this.rCirkel) this.speedX *= -1;
+    if (this.yCirkel < this.GlasP1y + this.rCirkel) this.speedY *= -1;
+    if (this.yCirkel > this.GlasP2y - this.rCirkel) this.speedY *= -1;
   }
 
   Interaktion(anden) {
@@ -118,11 +135,11 @@ class Cirkler {
     return this.rCirkel + anden.rCirkel > distance;
   }
 
-  Glas(){
+  Glas() {
     stroke(0);
     strokeWeight(2);
-    line(this.GlasP1x,this.GlasP1y,this.GlasP2x,this.GlasP2y);
-    line(this.GlasP2x,this.GlasP2y,this.GlasP3x,this.GlasP3y);
-    line(this.GlasP3x,this.GlasP3y,this.GlasP4x,this.GlasP4y);
+    line(this.GlasP1x, this.GlasP1y, this.GlasP2x, this.GlasP2y);
+    line(this.GlasP2x, this.GlasP2y, this.GlasP3x, this.GlasP3y);
+    line(this.GlasP3x, this.GlasP3y, this.GlasP4x, this.GlasP4y);
   }
 }

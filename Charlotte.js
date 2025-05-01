@@ -4,8 +4,8 @@ let xIs1 = -10;
 let xIs2 = 360;
 const xIs1Slut = 60;
 const xIs2Slut = 230;
-let flytIs = false;
 
+let flytIs = false;
 ildTaend = true;
 storeVolume = false;
 mindreVolume = false;
@@ -17,7 +17,7 @@ let orangeCirkler = [];
 
 let antalCirklerLille = 10;
 let antalCirklerStor = 10;
-let antalOrangeCirkler = 8;
+let antalOrangeCirkler = 5;
 
 // Variabler til glasset
 let GlasP1x = 150; //150
@@ -59,7 +59,7 @@ function setup()
   let button5 = createButton('Tilføj varme');
   button5.position(500, 370);
   button5.size(110,30);
-  button5.mousePressed();
+  button5.mousePressed(startIldTaend);
 
   let button6 = createButton('Tilføj kulde');
   button6.position(500, 400);
@@ -204,7 +204,9 @@ function tegnIs()
 
 function startFlytIs()
 {
+  reset();
   flytIs = true;
+
 }
 
 function opdaterIs() {
@@ -221,14 +223,13 @@ function opdaterIs() {
   }
   if (abs(xIs1 - xIs1Slut) <= 1)
   {
-    flytIs = false;
-    kulde();
+    if (abs(xIs2 - xIs2Slut) <= 1) {
+      flytIs = false;
+      kulde();
+    }
+    
   }
 
-  if (abs(xIs2 - xIs2Slut) <= 1)
-  {
-    flytIs = false;
-  }
 }
 
 //Ild funktioner
@@ -250,7 +251,13 @@ function opdaterIld()
 
 function startIldTaend()
 {
+  reset();
   ildTaend = false;
+  
+  for (let o = 0; o < antalOrangeCirkler; o++) {
+    orangeCirkler.push(nyCirkel(5));
+  }
+
 }
 
 //Volume funktioner
@@ -325,4 +332,33 @@ function kulde(){
     orangeCirkler.splice(i, 1);
   }
   
+}
+
+function reset() {
+  // Nulstil alle variabler og arrays
+  xIs1 = -10;
+  xIs2 = 360;
+
+  flytIs = false;
+  ildTaend = true;
+  storeVolume = false;
+  mindreVolume = false;
+
+  // Tøm alle arrays og genskab dem
+  mangeCirklerLille = [];
+  mangeCirklerStor = [];
+  nyCirkler = [];
+  orangeCirkler = [];
+
+  for (let i = 0; i < antalCirklerLille; i++) {
+    mangeCirklerLille.push(nyCirkel(3));
+  }
+
+  for (let j = 0; j < antalCirklerStor; j++) {
+    mangeCirklerStor.push(nyCirkel(3));
+  }
+
+  for (let o = 0; o < antalOrangeCirkler; o++) {
+    orangeCirkler.push(nyCirkel(5));
+  }
 }

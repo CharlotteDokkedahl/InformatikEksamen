@@ -1,9 +1,14 @@
 // Variabler til isterninger
+let icecube;
 let xIs1 = -10;
 let xIs2 = 360;
 const xIs1Slut = 60;
 const xIs2Slut = 230;
 let flytIs = false;
+
+ildTaend = true;
+storeVolume = false;
+mindreVolume = false;
 
 // Arrays til cirkler
 let mangeCirklerLille = [];
@@ -15,21 +20,31 @@ const antalCirklerLille = 10;
 const antalCirklerStor = 10;
 const antalOrangeCirkler = 5;
 
-let icecube;
+// Variabler til glasset
+let GlasP1x = 150; //150
+let GlasP1y = 170; //170
+let GlasP2x = 150; //150
+let GlasP2y = 370; //370
+let GlasP3x = 330; //330
+let GlasP3y = 370; //370
+let GlasP4x = 330; //330
+let GlasP4y = 170; //170
+
 
 function preload() {
   icecube = loadImage("icecubes.png");
+  ild = loadImage('ild.png');
 }
 
 function setup() {
   createCanvas(870, 450);
   
-  createButton("Større volume").position(740, 370).size(110, 30);
-  createButton("Mindre volume").position(740, 400).size(110, 30);
-  createButton("Tilsæt Fe3+").position(620, 370).size(110, 30);
-  createButton("Tilsæt SCN-").position(620, 400).size(110, 30);
-  createButton("Tilføj varme").position(500, 370).size(110, 30);
-  createButton("Tilføj kulde").position(500, 400).size(110, 30).mousePressed(startFlytIs);
+  createButton("Større volume").position(760, 390).size(110, 30).mousePressed(startStore);
+  createButton("Mindre volume").position(760, 420).size(110, 30).mousePressed(startMindre);
+  createButton("Tilsæt Fe3+").position(640, 390).size(110, 30);
+  createButton("Tilsæt SCN-").position(640, 420).size(110, 30);
+  createButton("Tilføj varme").position(520, 390).size(110, 30).mousePressed(startIldTaend);
+  createButton("Tilføj kulde").position(520, 420).size(110, 30).mousePressed(startFlytIs);
 
   for (let i = 0; i < antalCirklerLille; i++) mangeCirklerLille.push(nyCirkel(3));
   for (let j = 0; j < antalCirklerStor; j++) mangeCirklerStor.push(nyCirkel(3));
@@ -48,8 +63,19 @@ function draw() {
   reaktionOrangeOgRod();
 
   visGUI();
+  tegnGlas();
   tegnIs();
   opdaterIs();
+  tegnIld();
+  opdaterIld();
+  opdaterStore();
+  opdaterMindre();
+
+  stroke(0);
+  strokeWeight(2);
+  line(GlasP1x,GlasP1y,GlasP2x,GlasP2y);
+  line(GlasP2x,GlasP2y,GlasP3x,GlasP3y);
+  line(GlasP3x,GlasP3y,GlasP4x,GlasP4y);
 }
 
 function nyCirkel(r) {
@@ -68,7 +94,7 @@ function tegnOgFlytAlle(arr, farve) {
     noStroke();
     circle(arr[i].x, arr[i].y, arr[i].r * 2);
     flyt(arr[i]);
-    if (arr === mangeCirklerLille && i === 0) tegnGlas();
+    //if (arr === mangeCirklerLille && i === 0) tegnGlas();
   }
 }
 
@@ -122,38 +148,127 @@ function reaktionOrangeOgRod() {
   }
 }
 
-function tegnGlas() {
+function tegnGlas() 
+{
   stroke(0);
   strokeWeight(2);
-  line(150, 170, 150, 370);
-  line(150, 370, 330, 370);
-  line(330, 370, 330, 170);
+  line(GlasP1x,GlasP1y,GlasP2x,GlasP2y);
+  line(GlasP2x,GlasP2y,GlasP3x,GlasP3y);
+  line(GlasP3x,GlasP3y,GlasP4x,GlasP4y);
 }
 
-function tegnIs() {
+
+//Is funktioner
+function tegnIs() 
+{
   icecube.resize(115, 100);
   image(icecube, xIs1, 300);
   image(icecube, xIs2, 300);
 }
 
 function opdaterIs() {
-  if (flytIs) {
-    if (abs(xIs1 - xIs1Slut) > 1) xIs1++;
-    if (abs(xIs2 - xIs2Slut) > 1) xIs2--;
+  if (flytIs) 
+  {
+    if (abs(xIs1 - xIs1Slut) > 1)
+    {
+      xIs1 = xIs1 + 1;
+    }
+    if (abs(xIs2 - xIs2Slut) > 1)
+    {
+      xIs2 = xIs2 - 1;
+    }
   }
-  if (abs(xIs1 - xIs1Slut) <= 1 && abs(xIs2 - xIs2Slut) <= 1) flytIs = false;
+  if (abs(xIs1 - xIs1Slut) <= 1)
+  {
+    flytIs = false;
+  }
+
+  if (abs(xIs2 - xIs2Slut) <= 1)
+  {
+    flytIs = false;
+  }
 }
 
-function startFlytIs() {
+function startFlytIs() 
+{
   flytIs = true;
 }
 
-function visGUI() {
+//Ild funktioner
+function tegnIld()
+{
+  ild.resize(110,110);
+  image(ild, 185, 360);
+}
+
+function opdaterIld()
+{
+  if(ildTaend)
+    {
+      fill(220);
+      noStroke();
+      rect(225,375,30,30);
+    }
+}
+
+function startIldTaend()
+{
+  ildTaend = false;
+}
+
+//Volume funktioner
+function opdaterStore()
+{
+  if(storeVolume)
+    {
+      GlasP1x = 120;
+      GlasP1y = 170;
+      GlasP2x = 120;
+      GlasP2y = 370;
+      GlasP3x = 360;
+      GlasP3y = 370;
+      GlasP4x = 360;
+      GlasP4y = 170;
+    }
+}
+
+function startStore()
+{
+  storeVolume = true;
+}
+
+function opdaterMindre()
+{
+  if(mindreVolume)
+    {
+      GlasP1x = 180;
+      GlasP1y = 170;
+      GlasP2x = 180;
+      GlasP2y = 370;
+      GlasP3x = 300;
+      GlasP3y = 370;
+      GlasP4x = 300;
+      GlasP4y = 170;
+    }
+}
+
+function startMindre()
+{
+  mindreVolume = true;
+}
+
+
+function visGUI() 
+{
+  fill(255);
+  stroke(0);
+  rect(500,50,350,270);
+
   fill(0);
+  noStroke();
   textSize(20);
   text("Teori og brugervejledning", 510, 35);
   text("Tempratur:", 505, 360);
   text("Stoffer:", 625, 360);
   text("Volume:", 745, 360);
 }
-

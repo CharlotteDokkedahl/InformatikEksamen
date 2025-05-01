@@ -230,5 +230,5 @@ class Cirkler {
     line(this.GlasP3x, this.GlasP3y, this.GlasP4x, this.GlasP4y);
   }
 }
-//hallo
+
 

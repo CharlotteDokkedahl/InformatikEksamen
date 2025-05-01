@@ -142,10 +142,18 @@ function tegnIs() {
 
 function opdaterIs() {
   if (flytIs) {
-    if (abs(xIs1 - xIs1Slut) > 1) xIs1++;
-    if (abs(xIs2 - xIs2Slut) > 1) xIs2--;
+    if (abs(xIs1 - xIs1Slut) > 1) 
+      xIs1++;
+    if (abs(xIs2 - xIs2Slut) > 1) 
+      xIs2--;
   }
-  if (abs(xIs1 - xIs1Slut) <= 1 && abs(xIs2 - xIs2Slut) <= 1) flytIs = false;
+  if (abs(xIs1 - xIs1Slut) <= 1 && abs(xIs2 - xIs2Slut) <= 1) 
+    flytIs = false;
+    tilføjKulde();
+}
+
+function tilføjKulde(){
+  antalOrangeCirkler = 1;
 }
 
 function startFlytIs() {

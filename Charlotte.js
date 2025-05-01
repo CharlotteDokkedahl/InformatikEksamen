@@ -1,11 +1,15 @@
-// Variabler til isterninger
+//variabler
+let icecube;
 let xIs1 = -10;
 let xIs2 = 360;
 const xIs1Slut = 60;
 const xIs2Slut = 230;
 let flytIs = false;
 
-// Arrays til cirkler
+ildTaend = true;
+storeVolume = false;
+mindreVolume = false;
+
 let mangeCirklerLille = [];
 let mangeCirklerStor = [];
 let nyCirkler = [];
@@ -13,49 +17,104 @@ let orangeCirkler = [];
 
 let antalCirklerLille = 10;
 let antalCirklerStor = 10;
-let antalOrangeCirkler = 2
-;
+let antalOrangeCirkler = 8;
 
-let icecube;
+// Variabler til glasset
+let GlasP1x = 150; //150
+let GlasP1y = 170; //170
+let GlasP2x = 150; //150
+let GlasP2y = 370; //370
+let GlasP3x = 330; //330
+let GlasP3y = 370; //370
+let GlasP4x = 330; //330
+let GlasP4y = 170; //170
 
-function preload() {
-  icecube = loadImage("icecubes.png");
+function preload()
+{
+  icecube = loadImage('icecubes.png');
+  ild = loadImage('ild.png');
 }
 
-function setup() {
+function setup() 
+{
   createCanvas(870, 450);
-  
-  createButton("Større volume").position(740, 370).size(110, 30);
-  createButton("Mindre volume").position(740, 400).size(110, 30);
-  createButton("Tilsæt Fe3+").position(620, 370).size(110, 30);
-  createButton("Tilsæt SCN-").position(620, 400).size(110, 30);
-  createButton("Tilføj varme").position(500, 370).size(110, 30);
-  createButton("Tilføj kulde").position(500, 400).size(110, 30).mousePressed(startFlytIs);
 
-  for (let i = 0; i < antalCirklerLille; i++) mangeCirklerLille.push(nyCirkel(3));
-  for (let j = 0; j < antalCirklerStor; j++) mangeCirklerStor.push(nyCirkel(3));
-  for (let o = 0; o < antalOrangeCirkler; o++) orangeCirkler.push(nyCirkel(5));
+  //knapper
+  let button1 = createButton('Større volume');
+  button1.position(740, 370);
+  button1.size(110,30);
+
+  let button2 = createButton('Mindre volume');
+  button2.position(740, 400);
+  button2.size(110,30);
+
+  let button3 = createButton('Tilsæt Fe3+');
+  button3.position(620, 370);
+  button3.size(110,30);
+
+  let button4 = createButton('Tilsæt SCN-');
+  button4.position(620, 400);
+  button4.size(110,30);
+
+  let button5 = createButton('Tilføj varme');
+  button5.position(500, 370);
+  button5.size(110,30);
+  button5.mousePressed();
+
+  let button6 = createButton('Tilføj kulde');
+  button6.position(500, 400);
+  button6.size(110,30);
+  button6.mousePressed(startFlytIs);
+
+  for (let i = 0; i < antalCirklerLille; i++) {
+    mangeCirklerLille.push(nyCirkel(3));
+  }
+
+  for (let j = 0; j < antalCirklerStor; j++) {
+    mangeCirklerStor.push(nyCirkel(3));
+  }
+
+  for (let o = 0; o < antalOrangeCirkler; o++) {
+    orangeCirkler.push(nyCirkel(5));
+  }
+
 }
 
-function draw() {
-
+function draw() 
+{
   background(220);
   fyld();
 
-  tegnOgFlytAlle(mangeCirklerLille,100, 200, 170);
-  tegnOgFlytAlle(mangeCirklerStor,150, 100, 250);
-  tegnOgFlytAlle(nyCirkler,200, 0, 0);
-  tegnOgFlytAlle(orangeCirkler,250,250,250);
+  tegnOgFlytAlle(mangeCirklerLille, color(100, 200, 170));
+  tegnOgFlytAlle(mangeCirklerStor, color(150, 100, 250));
+  tegnOgFlytAlle(nyCirkler, color(200, 0, 0));
+  tegnOgFlytAlle(orangeCirkler, color(250));
+
+  reaktionLilleOgStor();
+  reaktionOrangeOgRod();
 
   reaktionLilleOgStor();
   reaktionOrangeOgRod();
 
   visGUI();
+  tegnGlas();
   tegnIs();
   opdaterIs();
+  tegnIld();
+  opdaterIld();
+  opdaterStore();
+  opdaterMindre();
 
+  //Tegner glasset
+  stroke(0);
+  strokeWeight(2);
+  line(GlasP1x,GlasP1y,GlasP2x,GlasP2y);
+  line(GlasP2x,GlasP2y,GlasP3x,GlasP3y);
+  line(GlasP3x,GlasP3y,GlasP4x,GlasP4y);
 }
 
+
+//Atom funktioner
 function nyCirkel(r) {
   const x = random(155, 325);
   const y = random(175, 365);
@@ -66,13 +125,13 @@ function nyCirkel(r) {
   };
 }
 
-function tegnOgFlytAlle(arr,r,g,b) {
+function tegnOgFlytAlle(arr, farve) {
   for (let i = arr.length - 1; i >= 0; i--) {
-    fill(r,g,b);
+    fill(farve);
     noStroke();
     circle(arr[i].x, arr[i].y, arr[i].r * 2);
     flyt(arr[i]);
-    if (arr === mangeCirklerLille && i === 0) tegnGlas();
+    //if (arr === mangeCirklerLille && i === 0) tegnGlas();
   }
 }
 
@@ -112,11 +171,11 @@ function reaktionOrangeOgRod() {
         const rx = nyCirkler[r].x;
         const ry = nyCirkler[r].y;
         let nyLilla = nyCirkel(3);
-        nyLilla.x = rx + random(-5, 5);
-        nyLilla.y = ry + random(-5, 5);
+        nyLilla.x = rx + random(-3, 3);
+        nyLilla.y = ry + random(-3, 3);
         let nyGron = nyCirkel(3);
-        nyGron.x = rx + random(-5, 5);
-        nyGron.y = ry + random(-5, 5);
+        nyGron.x = rx + random(-3, 3);
+        nyGron.y = ry + random(-3, 3);
         mangeCirklerLille.push(nyLilla);
         mangeCirklerStor.push(nyGron);
         nyCirkler.splice(r, 1);
@@ -126,42 +185,123 @@ function reaktionOrangeOgRod() {
   }
 }
 
-function tegnGlas() {
+function tegnGlas() 
+{
   stroke(0);
   strokeWeight(2);
-  line(150, 170, 150, 370);
-  line(150, 370, 330, 370);
-  line(330, 370, 330, 170);
+  line(GlasP1x,GlasP1y,GlasP2x,GlasP2y);
+  line(GlasP2x,GlasP2y,GlasP3x,GlasP3y);
+  line(GlasP3x,GlasP3y,GlasP4x,GlasP4y);
 }
 
-function tegnIs() {
+//Is funktioner
+function tegnIs() 
+{
   icecube.resize(115, 100);
   image(icecube, xIs1, 300);
   image(icecube, xIs2, 300);
 }
 
-function opdaterIs() {
-  if (flytIs) {
-    if (abs(xIs1 - xIs1Slut) > 1) 
-      xIs1++;
-    if (abs(xIs2 - xIs2Slut) > 1) 
-      xIs2--;
-  }
-  if (abs(xIs1 - xIs1Slut) <= 1 && abs(xIs2 - xIs2Slut) <= 1) 
-    flytIs = false;
-    tilføjKulde();
-}
-
-function tilføjKulde(){
-  antalOrangeCirkler = 1;
-}
-
-function startFlytIs() {
+function startFlytIs()
+{
   flytIs = true;
 }
 
-function visGUI() {
+function opdaterIs() {
+  if (flytIs) 
+  {
+    if (abs(xIs1 - xIs1Slut) > 1)
+    {
+      xIs1 = xIs1 + 1;
+    }
+    if (abs(xIs2 - xIs2Slut) > 1)
+    {
+      xIs2 = xIs2 - 1;
+    }
+  }
+  if (abs(xIs1 - xIs1Slut) <= 1)
+  {
+    flytIs = false;
+    kulde();
+  }
+
+  if (abs(xIs2 - xIs2Slut) <= 1)
+  {
+    flytIs = false;
+  }
+}
+
+//Ild funktioner
+function tegnIld()
+{
+  ild.resize(110,110);
+  image(ild, 185, 360);
+}
+
+function opdaterIld()
+{
+  if(ildTaend)
+    {
+      fill(220);
+      noStroke();
+      rect(225,375,30,30);
+    }
+}
+
+function startIldTaend()
+{
+  ildTaend = false;
+}
+
+//Volume funktioner
+function opdaterStore()
+{
+  if(storeVolume)
+    {
+      GlasP1x = 120;
+      GlasP1y = 170;
+      GlasP2x = 120;
+      GlasP2y = 370;
+      GlasP3x = 360;
+      GlasP3y = 370;
+      GlasP4x = 360;
+      GlasP4y = 170;
+    }
+}
+
+function startStore()
+{
+  storeVolume = true;
+}
+
+function opdaterMindre()
+{
+  if(mindreVolume)
+    {
+      GlasP1x = 180;
+      GlasP1y = 170;
+      GlasP2x = 180;
+      GlasP2y = 370;
+      GlasP3x = 300;
+      GlasP3y = 370;
+      GlasP4x = 300;
+      GlasP4y = 170;
+    }
+}
+
+function startMindre()
+{
+  mindreVolume = true;
+}
+
+function visGUI() 
+{
+  fill(255);
+  stroke(0);
+  rect(500,50,350,270);
+
   fill(0);
+  noStroke();
   textSize(20);
   text("Teori og brugervejledning", 510, 35);
   text("Tempratur:", 505, 360);
@@ -174,8 +314,15 @@ function fyld() {
  if (nyCirkler.length>4){ 
   rød=255;
  }
+ noStroke();
  fill(rød,100,100,150);
  rect(150,170,180,200);
 
 }
 
+function kulde(){
+  for (let i = orangeCirkler.length - 3; i >= 0; i--) {
+    orangeCirkler.splice(i, 1);
+  }
+  
+}

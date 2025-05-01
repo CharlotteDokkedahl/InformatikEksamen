@@ -96,7 +96,6 @@ function draw()
   reaktionLilleOgStor();
   reaktionOrangeOgRod();
 
-  visGUI();
   tegnGlas();
   tegnIs();
   opdaterIs();
@@ -104,6 +103,7 @@ function draw()
   opdaterIld();
   opdaterStore();
   opdaterMindre();
+  visGUI();
 
   //Tegner glasset
   stroke(0);

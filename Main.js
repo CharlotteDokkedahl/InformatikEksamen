@@ -83,6 +83,7 @@ function setup()
 function draw() 
 {
   background(220);
+  fyld();
 
   tegnOgFlytAlle(mangeCirklerLille, color(100, 200, 170));
   tegnOgFlytAlle(mangeCirklerStor, color(150, 100, 250));
@@ -170,11 +171,11 @@ function reaktionOrangeOgRod() {
         const rx = nyCirkler[r].x;
         const ry = nyCirkler[r].y;
         let nyLilla = nyCirkel(3);
-        nyLilla.x = rx + random(-5, 5);
-        nyLilla.y = ry + random(-5, 5);
+        nyLilla.x = rx + random(-3, 3);
+        nyLilla.y = ry + random(-3, 3);
         let nyGron = nyCirkel(3);
-        nyGron.x = rx + random(-5, 5);
-        nyGron.y = ry + random(-5, 5);
+        nyGron.x = rx + random(-3, 3);
+        nyGron.y = ry + random(-3, 3);
         mangeCirklerLille.push(nyLilla);
         mangeCirklerStor.push(nyGron);
         nyCirkler.splice(r, 1);
@@ -292,7 +293,6 @@ function startMindre()
   mindreVolume = true;
 }
 
-
 function visGUI() 
 {
   fill(255);
@@ -306,4 +306,15 @@ function visGUI()
   text("Tempratur:", 505, 360);
   text("Stoffer:", 625, 360);
   text("Volume:", 745, 360);
+}
+
+function fyld() {
+  let rød=200;
+ if (nyCirkler.length>4){ 
+  rød=255;
+ }
+ noStroke();
+ fill(rød,100,100,150);
+ rect(150,170,180,200);
+
 }

@@ -48,7 +48,7 @@ function setup()
   let button2 = createButton('Mindre volume');
   button2.position(740, 400);
   button2.size(110,30);
-  //button1.mousePressed(startMindre);
+  button2.mousePressed(startMindre);
 
   let button3 = createButton('Tilsæt Fe3+');
   button3.position(620, 370);
@@ -112,8 +112,8 @@ function draw()
 
 //Atom funktioner
 function nyCirkel(r) {
-  const x = random(155, 325);
-  const y = random(175, 365);
+  const x = random(GlasP1x + 40, GlasP4x - 40);
+  const y = random(GlasP1y + 5, GlasP3y-5);
   return {
     x, y, r,
     vx: random(-3, 3),
@@ -261,6 +261,7 @@ function opdaterStore()
 {
   if(storeVolume)
     {
+      reset();
       GlasP1x = 120;
       GlasP1y = 170;
       GlasP2x = 120;
@@ -281,6 +282,7 @@ function opdaterMindre()
 {
   if(mindreVolume)
     {
+      reset();
       GlasP1x = 180;
       GlasP1y = 170;
       GlasP2x = 180;

@@ -4,8 +4,8 @@ let xIs1 = -10;
 let xIs2 = 360;
 const xIs1Slut = 60;
 const xIs2Slut = 230;
-let flytIs = false;
 
+let flytIs = false;
 ildTaend = true;
 storeVolume = false;
 mindreVolume = false;
@@ -59,7 +59,7 @@ function setup()
   let button5 = createButton('Tilføj varme');
   button5.position(500, 370);
   button5.size(110,30);
-  button5.mousePressed();
+  button5.mousePressed(startIldTaend);
 
   let button6 = createButton('Tilføj kulde');
   button6.position(500, 400);
@@ -105,12 +105,6 @@ function draw()
   opdaterMindre();
   visGUI();
 
-  //Tegner glasset
-  stroke(0);
-  strokeWeight(2);
-  line(GlasP1x,GlasP1y,GlasP2x,GlasP2y);
-  line(GlasP2x,GlasP2y,GlasP3x,GlasP3y);
-  line(GlasP3x,GlasP3y,GlasP4x,GlasP4y);
 }
 
 
@@ -131,7 +125,6 @@ function tegnOgFlytAlle(arr, farve) {
     noStroke();
     circle(arr[i].x, arr[i].y, arr[i].r * 2);
     flyt(arr[i]);
-    //if (arr === mangeCirklerLille && i === 0) tegnGlas();
   }
 }
 
@@ -204,6 +197,7 @@ function tegnIs()
 
 function startFlytIs()
 {
+  reset();
   flytIs = true;
 }
 
@@ -219,15 +213,18 @@ function opdaterIs() {
       xIs2 = xIs2 - 1;
     }
   }
+  
   if (abs(xIs1 - xIs1Slut) <= 1)
   {
     flytIs = false;
+    kulde();
   }
 
-  if (abs(xIs2 - xIs2Slut) <= 1)
+  /*if (abs(xIs2 - xIs2Slut) <= 1)
   {
     flytIs = false;
-  }
+    kulde();
+  }*/
 }
 
 //Ild funktioner
@@ -243,13 +240,18 @@ function opdaterIld()
     {
       fill(220);
       noStroke();
-      rect(225,375,30,30);
+      //rect(225,375,30,30);
     }
 }
 
 function startIldTaend()
 {
+  reset();
   ildTaend = false;
+  
+  for (let o = 0; o < antalOrangeCirkler; o++) {
+    orangeCirkler.push(nyCirkel(5));
+  }
 }
 
 //Volume funktioner
@@ -310,6 +312,7 @@ function visGUI()
 
 function fyld() {
   let rød=200;
+
  if (nyCirkler.length>4){ 
   rød=255;
  }
@@ -317,4 +320,40 @@ function fyld() {
  fill(rød,100,100,150);
  rect(150,170,180,200);
 
+}
+
+function kulde() {
+  for (let i = orangeCirkler.length - 3; i >= 0; i--) {
+    orangeCirkler.splice(i, 1);
+  }
+  
+}
+
+function reset() {
+  // Nulstil alle variabler og arrays
+  xIs1 = -10;
+  xIs2 = 360;
+
+  flytIs = false;
+  ildTaend = true;
+  storeVolume = false;
+  mindreVolume = false;
+
+  // Tøm alle arrays og genskab dem
+  mangeCirklerLille = [];
+  mangeCirklerStor = [];
+  nyCirkler = [];
+  orangeCirkler = [];
+
+  for (let i = 0; i < antalCirklerLille; i++) {
+    mangeCirklerLille.push(nyCirkel(3));
+  }
+
+  for (let j = 0; j < antalCirklerStor; j++) {
+    mangeCirklerStor.push(nyCirkel(3));
+  }
+
+  for (let o = 0; o < antalOrangeCirkler; o++) {
+    orangeCirkler.push(nyCirkel(5));
+  }
 }

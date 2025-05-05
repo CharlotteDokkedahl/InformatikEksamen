@@ -222,11 +222,11 @@ function opdaterIs() {
     kulde();
   }
 
-  /*if (abs(xIs2 - xIs2Slut) <= 1)
+  if (abs(xIs2 - xIs2Slut) <= 1)
   {
     flytIs = false;
     kulde();
-  }*/
+  }
 }
 
 //Ild funktioner
@@ -242,7 +242,7 @@ function opdaterIld()
     {
       fill(220);
       noStroke();
-      //rect(225,375,30,30);
+      rect(225,375,30,30);
     }
 }
 

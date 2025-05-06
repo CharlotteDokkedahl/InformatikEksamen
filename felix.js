@@ -5,7 +5,12 @@ let xIs2 = 360;
 const xIs1Slut = 60;
 const xIs2Slut = 230;
 
-let flytIs = false;
+yFe = 95;
+yScn = 95;
+fe = false;
+scn = false;
+
+flytIs = false;
 ildTaend = true;
 storeVolume = false;
 mindreVolume = false;
@@ -33,6 +38,7 @@ function preload()
 {
   icecube = loadImage('icecubes.png');
   ild = loadImage('ild.png');
+  reagens = loadImage('reagens.png');
 }
 
 function setup() 
@@ -106,6 +112,7 @@ function draw()
   opdaterStore();
   opdaterMindre();
   visGUI();
+  tegnReagens();
 
 }
 
@@ -242,7 +249,7 @@ function opdaterIld()
     {
       fill(220);
       noStroke();
-      //rect(225,375,30,30);
+      rect(225,375,30,30);
     }
 }
 
@@ -297,6 +304,11 @@ function opdaterMindre()
 function startMindre()
 {
   mindreVolume = true;
+}
+
+function tegnReagens()
+{
+
 }
 
 function visGUI() 

@@ -5,8 +5,8 @@ let xIs2 = 360;
 const xIs1Slut = 60;
 const xIs2Slut = 230;
 
-yFe = 95;
-yScn = 95;
+let yFe = 95;
+let yScn = 95;
 fe = false;
 scn = false;
 
@@ -45,6 +45,8 @@ function setup()
 {
   createCanvas(870, 450);
 
+  angleMode(DEGREES);
+
   //knapper
   let button1 = createButton('Større volume');
   button1.position(760, 390);
@@ -59,10 +61,12 @@ function setup()
   let button3 = createButton('Tilsæt Fe3+');
   button3.position(640, 390);
   button3.size(110,30);
+  button3.mousePressed(startFE);
 
   let button4 = createButton('Tilsæt SCN-');
   button4.position(640, 420);
   button4.size(110,30);
+  button4.mousePressed(startSCN);
 
   let button5 = createButton('Tilføj varme');
   button5.position(520, 390);
@@ -111,8 +115,10 @@ function draw()
   opdaterIld();
   opdaterStore();
   opdaterMindre();
-  visGUI();
   tegnReagens();
+  opdaterFE();
+  opdaterSCN();
+  visGUI();
 
 }
 
@@ -308,8 +314,71 @@ function startMindre()
 
 function tegnReagens()
 {
+  push();
+  imageMode(CENTER);
+  rotate(100);
+  reagens.resize(30,120);
+  image(reagens, 60, -100);
+  pop();
+  
+  push();
+  imageMode(CENTER);
+  rotate(260);
+  reagens.resize(30,120);
+  image(reagens, -140, 360);
+  pop();
 
+  if(fe) 
+  {
+    fill(100,200,170);
+    circle(170, yFe, 20);
+  }
+
+  if (scn)
+  {
+    fill(150,100,250);
+    circle(300,yScn,20);
+  }
 }
+
+function startFE()
+{
+  fe = true;
+}
+
+function opdaterFE()
+{
+  if(fe)
+  {
+    yFe = yFe + 2;
+    
+    if(yFe == 185)
+    {
+      fe = false;
+      yFe = 95;
+    }
+  }
+}
+
+function startSCN()
+{
+  scn = true;
+}
+
+function opdaterSCN()
+{
+  if(scn)
+  {
+    yScn = yScn + 2;
+    
+    if(yScn == 185)
+    {
+      scn = false;
+      yScn = 95;
+    }
+  }
+}
+
 
 function visGUI() 
 {

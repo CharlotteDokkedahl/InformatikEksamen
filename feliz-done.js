@@ -232,13 +232,13 @@ function opdaterIs() {
   if (abs(xIs1 - xIs1Slut) <= 1)
   {
     flytIs = false;
-    kulde();
+    mereProdukt();
   }
 
   /*if (abs(xIs2 - xIs2Slut) <= 1)
   {
     flytIs = false;
-    kulde();
+    mereProdukt();
   }*/
 }
 
@@ -356,6 +356,8 @@ function opdaterFE()
     {
       fe = false;
       yFe = 95;
+
+      mereProdukt();
     }
   }
 }
@@ -375,6 +377,8 @@ function opdaterSCN()
     {
       scn = false;
       yScn = 95;
+
+      mereProdukt();
     }
   }
 }
@@ -407,7 +411,7 @@ function fyld() {
 
 }
 
-function kulde() {
+function mereProdukt() {
   for (let i = orangeCirkler.length - 3; i >= 0; i--) {
     orangeCirkler.splice(i, 1);
   }

@@ -237,13 +237,13 @@ function opdaterIs() {
   if (abs(xIs1 - xIs1Slut) <= 1)
   {
     flytIs = false;
-    mereProdukt();
+    kulde();
   }
 
   /*if (abs(xIs2 - xIs2Slut) <= 1)
   {
     flytIs = false;
-    mereProdukt();
+    kulde();
   }*/
 }
 
@@ -362,7 +362,7 @@ function opdaterFE()
       fe = false;
       yFe = 95;
 
-      mereProdukt();
+      kulde();
     }
   }
 }
@@ -383,11 +383,10 @@ function opdaterSCN()
       scn = false;
       yScn = 95;
 
-      mereProdukt();
+      kulde();
     }
   }
 }
-
 
 function visGUI() 
 {
@@ -416,11 +415,17 @@ function fyld() {
 
 }
 
-function mereProdukt() {
+function kulde() 
+{
   for (let i = orangeCirkler.length - 3; i >= 0; i--) {
     orangeCirkler.splice(i, 1);
   }
   
+}
+
+function mereFE()
+{
+
 }
 
 function reset() {

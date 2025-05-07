@@ -356,9 +356,9 @@ function opdaterFE()
 {
   if(fe)
   {
-    yFe = yFe + 1;
+    yFe = yFe + 2;
 
-    if(yFe >= 180)
+    if(yFe >= 185)
     {
       fe = false;
       yFe = 95;

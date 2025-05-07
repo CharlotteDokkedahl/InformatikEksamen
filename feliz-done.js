@@ -105,7 +105,7 @@ function draw()
   tegnOgFlytAlle(mangeCirklerLille, color(100, 200, 170));
   tegnOgFlytAlle(mangeCirklerStor, color(150, 100, 250));
   tegnOgFlytAlle(nyCirkler, color(200, 0, 0));
-  tegnOgFlytAlle(orangeCirkler, color(250));
+  tegnOgFlytAlle(orangeCirkler, color(250,250,250,0));
 
   reaktionLilleOgStor();
   reaktionOrangeOgRod();
@@ -348,6 +348,7 @@ function tegnReagens()
 
 function startFE()
 {
+  reset();
   fe = true;
 }
 
@@ -373,6 +374,7 @@ function opdaterFE()
 
 function startSCN()
 {
+  reset();
   scn = true;
 }
 
@@ -407,7 +409,7 @@ function visGUI()
   textSize(15);
   textWrap(WORD);
   text('Dette er en simulation over den kemiske ligevægt:',505,65);
-  text('Fe3+(aq) + SCN-(aq) <-> FeSCN2+(aq)(rød)',525,85);
+  text('Fe3+(grøn) + SCN-(lilla) <-> FeSCN2+(rød)',525,85);
   text('I en kemisk ligevægt kan du foretage forskellige indgreb. Indgreb i kemisk ligevægt kan beskrives ved Henry Le Chateliers princip:', 505,105,350);
   push();
   textAlign(CENTER);

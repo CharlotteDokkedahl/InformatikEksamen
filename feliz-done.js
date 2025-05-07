@@ -406,7 +406,7 @@ function visGUI()
   noStroke();
   textSize(15);
   textWrap(WORD);
-  text('Dette er en simulation over en kemisk ligevægt:',505,65);
+  text('Dette er en simulation over den kemiske ligevægt:',505,65);
   text('Fe3+(aq) + SCN-(aq) <-> FeSCN2+(aq)(rød)',525,85);
   text('I en kemisk ligevægt kan du foretage forskellige indgreb. Indgreb i kemisk ligevægt kan beskrives ved Henry Le Chateliers princip:', 505,105,350);
   push();

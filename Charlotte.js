@@ -113,7 +113,7 @@ function draw()
 //Atom funktioner
 function nyCirkel(r) {
   const x = random(GlasP1x + 40, GlasP4x - 40);
-  const y = random(GlasP1y + 5, GlasP3y-5);
+  const y = random(GlasP1y + 5, GlasP3y - 5);
   return {
     x, y, r,
     vx: random(-3, 3),
@@ -139,8 +139,7 @@ function flyt(c) {
 
 function afstand(a, b) {
   return dist(a.x, a.y, b.x, b.y);
-}
-
+}// Hvordan bliver den nye cirkel rød?
 function reaktionLilleOgStor() {
   for (let i = mangeCirklerLille.length - 1; i >= 0; i--) {
     for (let j = mangeCirklerStor.length - 1; j >= 0; j--) {
@@ -222,11 +221,11 @@ function opdaterIs() {
     kulde();
   }
 
-  /*if (abs(xIs2 - xIs2Slut) <= 1)
+  if (abs(xIs2 - xIs2Slut) <= 1)
   {
     flytIs = false;
     kulde();
-  }*/
+  }
 }
 
 //Ild funktioner
@@ -242,7 +241,7 @@ function opdaterIld()
     {
       fill(220);
       noStroke();
-      //rect(225,375,30,30);
+      rect(225,375,30,30);
     }
 }
 
@@ -261,7 +260,6 @@ function opdaterStore()
 {
   if(storeVolume)
     {
-      reset();
       GlasP1x = 120;
       GlasP1y = 170;
       GlasP2x = 120;
@@ -275,6 +273,7 @@ function opdaterStore()
 
 function startStore()
 {
+  reset();
   storeVolume = true;
 }
 

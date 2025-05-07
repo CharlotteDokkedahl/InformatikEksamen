@@ -78,6 +78,7 @@ function setup()
   button6.size(110,30);
   button6.mousePressed(startFlytIs);
 
+
   for (let i = 0; i < antalCirklerLille; i++) {
     mangeCirklerLille.push(nyCirkel(3));
   }

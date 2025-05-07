@@ -414,7 +414,7 @@ function visGUI()
   textStyle(ITALIC);
   text('Et ydre indgreb i et ligevægtssystem fremkalder en forskydning, som formindsker virkningen af indgrebet.',525,165,300);
   pop();
-  text('For at foretage et indgreb i den simulere reaktion kan du trykke på en af det 6 knapper nedenunder. Oplever du at programmet ikke fungere kan du trykke på knappen "Reset" ovenover.',505,240,350);
+  text('For at foretage et indgreb i den simulere reaktion kan du trykke på en af det 6 knapper nedenunder. Oplever du at programmet ikke fungerer kan du trykke på knappen "Reset" ovenover.',505,240,350);
 
   //Tekst over knapper
   fill(0);

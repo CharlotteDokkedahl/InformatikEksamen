@@ -363,7 +363,7 @@ function opdaterFE()
       fe = false;
       yFe = 95;
 
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < 5; i++) {
         let nyGrøn = nyCirkel(3);
         mangeCirklerLille.push(nyGrøn);
       }
@@ -387,7 +387,7 @@ function opdaterSCN()
       scn = false;
       yScn = 95;
 
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < 5; i++) {
         let nyGrøn = nyCirkel(3);
         mangeCirklerStor.push(nyGrøn);
       }

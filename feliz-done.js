@@ -351,18 +351,22 @@ function startFE()
   fe = true;
 }
 
+
 function opdaterFE()
 {
   if(fe)
   {
-    yFe = yFe + 2;
-    
-    if(yFe == 185)
+    yFe = yFe + 1;
+
+    if(yFe >= 180)
     {
       fe = false;
       yFe = 95;
 
-      kulde();
+      for (let i = 0; i < 3; i++) {
+        let nyGrøn = nyCirkel(3);
+        mangeCirklerLille.push(nyGrøn);
+      }
     }
   }
 }
@@ -383,7 +387,10 @@ function opdaterSCN()
       scn = false;
       yScn = 95;
 
-      kulde();
+      for (let i = 0; i < 3; i++) {
+        let nyGrøn = nyCirkel(3);
+        mangeCirklerStor.push(nyGrøn);
+      }
     }
   }
 }
@@ -420,15 +427,11 @@ function kulde()
   for (let i = orangeCirkler.length - 3; i >= 0; i--) {
     orangeCirkler.splice(i, 1);
   }
-  
 }
 
-function mereFE()
+
+function reset() 
 {
-
-}
-
-function reset() {
   // Nulstil alle variabler og arrays
   xIs1 = -10;
   xIs2 = 360;

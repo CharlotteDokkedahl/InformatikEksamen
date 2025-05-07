@@ -90,7 +90,7 @@ function draw()
   tegnOgFlytAlle(mangeCirklerLille, color(100, 200, 170));
   tegnOgFlytAlle(mangeCirklerStor, color(150, 100, 250));
   tegnOgFlytAlle(nyCirkler, color(200, 0, 0));
-  tegnOgFlytAlle(orangeCirkler, color(250));
+  tegnOgFlytAlle(orangeCirkler, color(250,250,250,0));
 
   reaktionLilleOgStor();
   reaktionOrangeOgRod();
@@ -112,13 +112,21 @@ function draw()
 
 //Atom funktioner
 function nyCirkel(r) {
-  const x = random(GlasP1x + 40, GlasP4x - 40);
-  const y = random(GlasP1y + 5, GlasP3y - 5);
-  return {
-    x, y, r,
-    vx: random(-3, 3),
-    vy: random(-3, 3),
+  let x = random(GlasP1x + 40, GlasP4x - 40);
+  let y = random(GlasP1y + 5, GlasP3y - 5);
+
+  let speedX = random(-3,3);
+  let speedY = random(-3,3);
+
+  let cirkel = {
+    x: x, 
+    y: y, 
+    r: r, 
+    vx: speedX, 
+    vy: speedY
   };
+
+  return cirkel;
 }
 
 function tegnOgFlytAlle(arr, farve) {
@@ -131,10 +139,26 @@ function tegnOgFlytAlle(arr, farve) {
 }
 
 function flyt(c) {
-  c.x += c.vx;
-  c.y += c.vy;
-  if (c.x < GlasP1x + c.r || c.x > GlasP4x - c.r) c.vx *= -1;
-  if (c.y < GlasP1y + c.r || c.y > GlasP3y - c.r) c.vy *= -1;
+  c.x = c.x + c.vx;
+  c.y = c.y + c.vy;
+
+  //collision
+  if (c.x < GlasP1x + c.r) {
+   c.vx = c.vx * -1; 
+  }
+
+  if (c.x > GlasP4x - c.r) {
+   c.vx = c.vx * -1;
+  }
+
+  if (c.y < GlasP1y + c.r) {
+   c.vy = c.vy * -1;
+  }
+
+  if (c.y > GlasP3y - c.r) {
+   c.vy = c.vy * -1; 
+  }
+  
 }
 
 function afstand(a, b) {

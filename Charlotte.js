@@ -139,7 +139,8 @@ function flyt(c) {
 
 function afstand(a, b) {
   return dist(a.x, a.y, b.x, b.y);
-}// Hvordan bliver den nye cirkel rød?
+}
+
 function reaktionLilleOgStor() {
   for (let i = mangeCirklerLille.length - 1; i >= 0; i--) {
     for (let j = mangeCirklerStor.length - 1; j >= 0; j--) {
@@ -281,10 +282,9 @@ function opdaterMindre()
 {
   if(mindreVolume)
     {
-      reset();
       GlasP1x = 180;
       GlasP1y = 170;
-      GlasP2x = 180;
+      GlasP2x = 180; 
       GlasP2y = 370;
       GlasP3x = 300;
       GlasP3y = 370;
@@ -295,6 +295,7 @@ function opdaterMindre()
 
 function startMindre()
 {
+  reset();
   mindreVolume = true;
 }
 

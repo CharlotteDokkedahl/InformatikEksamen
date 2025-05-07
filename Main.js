@@ -43,10 +43,12 @@ function setup()
   let button1 = createButton('Større volume');
   button1.position(740, 370);
   button1.size(110,30);
+  button1.mousePressed(startStore);
 
   let button2 = createButton('Mindre volume');
   button2.position(740, 400);
   button2.size(110,30);
+  button2.mousePressed(startMindre);
 
   let button3 = createButton('Tilsæt Fe3+');
   button3.position(620, 370);
@@ -131,8 +133,8 @@ function tegnOgFlytAlle(arr, farve) {
 function flyt(c) {
   c.x += c.vx;
   c.y += c.vy;
-  if (c.x < 150 + c.r || c.x > 330 - c.r) c.vx *= -1;
-  if (c.y < 170 + c.r || c.y > 370 - c.r) c.vy *= -1;
+  if (c.x < GlasP1x + c.r || c.x > GlasP4x - c.r) c.vx *= -1;
+  if (c.y < GlasP1y + c.r || c.y > GlasP3y - c.r) c.vy *= -1;
 }
 
 function afstand(a, b) {
@@ -220,11 +222,11 @@ function opdaterIs() {
     kulde();
   }
 
-  /*if (abs(xIs2 - xIs2Slut) <= 1)
+  if (abs(xIs2 - xIs2Slut) <= 1)
   {
     flytIs = false;
     kulde();
-  }*/
+  }
 }
 
 //Ild funktioner
@@ -240,7 +242,7 @@ function opdaterIld()
     {
       fill(220);
       noStroke();
-      //rect(225,375,30,30);
+      rect(225,375,30,30);
     }
 }
 
@@ -272,6 +274,7 @@ function opdaterStore()
 
 function startStore()
 {
+  reset();
   storeVolume = true;
 }
 
@@ -292,6 +295,7 @@ function opdaterMindre()
 
 function startMindre()
 {
+  reset();
   mindreVolume = true;
 }
 
@@ -318,7 +322,7 @@ function fyld() {
  }
  noStroke();
  fill(rød,100,100,150);
- rect(150,170,180,200);
+ rect(GlasP1x,GlasP1y,GlasP4x-GlasP1x,GlasP2y-GlasP1y);
 
 }
 
@@ -338,6 +342,16 @@ function reset() {
   ildTaend = true;
   storeVolume = false;
   mindreVolume = false;
+
+    // Variabler til glasset
+    GlasP1x = 150; //150
+    GlasP1y = 170; //170
+    GlasP2x = 150; //150
+    GlasP2y = 370; //370
+    GlasP3x = 330; //330
+    GlasP3y = 370; //370
+    GlasP4x = 330; //330
+    GlasP4y = 170; //170
 
   // Tøm alle arrays og genskab dem
   mangeCirklerLille = [];

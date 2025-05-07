@@ -397,10 +397,26 @@ function opdaterSCN()
 
 function visGUI() 
 {
+  //Tekstboks og tekst
   fill(255);
   stroke(0);
   rect(500,50,350,270);
 
+  fill(0);
+  noStroke();
+  textSize(15);
+  textWrap(WORD);
+  text('Dette er en simulation over en kemisk ligevægt:',505,65);
+  text('Fe3+(aq) + SCN-(aq) <-> FeSCN2+(aq)(rød)',525,85);
+  text('I en kemisk ligevægt kan du foretage forskellige indgreb. Indgreb i kemisk ligevægt kan beskrives ved Henry Le Chateliers princip:', 505,105,350);
+  push();
+  textAlign(CENTER);
+  textStyle(ITALIC);
+  text('Et ydre indgreb i et ligevægtssystem fremkalder en forskydning, som formindsker virkningen af indgrebet.',525,165,300);
+  pop();
+  text('For at foretage et indgreb i den simulere reaktion kan du trykke på en af det 6 knapper nedenunder. Oplever du at programmet ikke fungere kan du trykke på knappen "Reset" ovenover.',505,240,350);
+
+  //Tekst over knapper
   fill(0);
   noStroke();
   textSize(20);

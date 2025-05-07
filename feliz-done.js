@@ -105,7 +105,7 @@ function draw()
   tegnOgFlytAlle(mangeCirklerLille, color(100, 200, 170));
   tegnOgFlytAlle(mangeCirklerStor, color(150, 100, 250));
   tegnOgFlytAlle(nyCirkler, color(200, 0, 0));
-  tegnOgFlytAlle(orangeCirkler, color(250));
+  tegnOgFlytAlle(orangeCirkler, color(250,250,250,0));
 
   reaktionLilleOgStor();
   reaktionOrangeOgRod();
@@ -348,6 +348,7 @@ function tegnReagens()
 
 function startFE()
 {
+  reset();
   fe = true;
 }
 
@@ -356,14 +357,14 @@ function opdaterFE()
 {
   if(fe)
   {
-    yFe = yFe + 1;
+    yFe = yFe + 2;
 
-    if(yFe >= 180)
+    if(yFe >= 185)
     {
       fe = false;
       yFe = 95;
 
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < 5; i++) {
         let nyGrøn = nyCirkel(3);
         mangeCirklerLille.push(nyGrøn);
       }
@@ -373,6 +374,7 @@ function opdaterFE()
 
 function startSCN()
 {
+  reset();
   scn = true;
 }
 
@@ -387,7 +389,7 @@ function opdaterSCN()
       scn = false;
       yScn = 95;
 
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < 5; i++) {
         let nyGrøn = nyCirkel(3);
         mangeCirklerStor.push(nyGrøn);
       }
@@ -397,10 +399,26 @@ function opdaterSCN()
 
 function visGUI() 
 {
+  //Tekstboks og tekst
   fill(255);
   stroke(0);
   rect(500,50,350,270);
 
+  fill(0);
+  noStroke();
+  textSize(15);
+  textWrap(WORD);
+  text('Dette er en simulation over den kemiske ligevægt:',505,65);
+  text('Fe3+(grøn) + SCN-(lilla) <-> FeSCN2+(rød)',525,85);
+  text('I en kemisk ligevægt kan du foretage forskellige indgreb. Indgreb i kemisk ligevægt kan beskrives ved Henry Le Chateliers princip:', 505,105,350);
+  push();
+  textAlign(CENTER);
+  textStyle(ITALIC);
+  text('Et ydre indgreb i et ligevægtssystem fremkalder en forskydning, som formindsker virkningen af indgrebet.',525,165,300);
+  pop();
+  text('For at foretage et indgreb i den simulere reaktion kan du trykke på en af det 6 knapper nedenunder. Oplever du at programmet ikke fungerer kan du trykke på knappen "Reset" ovenover.',505,240,350);
+
+  //Tekst over knapper
   fill(0);
   noStroke();
   textSize(20);

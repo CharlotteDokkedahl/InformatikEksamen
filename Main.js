@@ -5,7 +5,12 @@ let xIs2 = 360;
 const xIs1Slut = 60;
 const xIs2Slut = 230;
 
-let flytIs = false;
+let yFe = 95;
+let yScn = 95;
+fe = false;
+scn = false;
+
+flytIs = false;
 ildTaend = true;
 storeVolume = false;
 mindreVolume = false;
@@ -33,40 +38,50 @@ function preload()
 {
   icecube = loadImage('icecubes.png');
   ild = loadImage('ild.png');
+  reagens = loadImage('reagens.png');
 }
 
 function setup() 
 {
   createCanvas(870, 450);
 
+  angleMode(DEGREES);
+
   //knapper
   let button1 = createButton('Større volume');
-  button1.position(740, 370);
+  button1.position(760, 390);
   button1.size(110,30);
   button1.mousePressed(startStore);
 
   let button2 = createButton('Mindre volume');
-  button2.position(740, 400);
+  button2.position(760, 420);
   button2.size(110,30);
   button2.mousePressed(startMindre);
 
   let button3 = createButton('Tilsæt Fe3+');
-  button3.position(620, 370);
+  button3.position(640, 390);
   button3.size(110,30);
+  button3.mousePressed(startFE);
 
   let button4 = createButton('Tilsæt SCN-');
-  button4.position(620, 400);
+  button4.position(640, 420);
   button4.size(110,30);
+  button4.mousePressed(startSCN);
 
   let button5 = createButton('Tilføj varme');
-  button5.position(500, 370);
+  button5.position(520, 390);
   button5.size(110,30);
   button5.mousePressed(startIldTaend);
 
   let button6 = createButton('Tilføj kulde');
-  button6.position(500, 400);
+  button6.position(520, 420);
   button6.size(110,30);
   button6.mousePressed(startFlytIs);
+
+  let button7 = createButton('Reset');
+  button7.position(760, 35);
+  button7.size(110,30);
+  button7.mousePressed(reset);
 
   for (let i = 0; i < antalCirklerLille; i++) {
     mangeCirklerLille.push(nyCirkel(3));
@@ -90,7 +105,7 @@ function draw()
   tegnOgFlytAlle(mangeCirklerLille, color(100, 200, 170));
   tegnOgFlytAlle(mangeCirklerStor, color(150, 100, 250));
   tegnOgFlytAlle(nyCirkler, color(200, 0, 0));
-  tegnOgFlytAlle(orangeCirkler, color(250));
+  tegnOgFlytAlle(orangeCirkler, color(250,250,250,0));
 
   reaktionLilleOgStor();
   reaktionOrangeOgRod();
@@ -105,20 +120,32 @@ function draw()
   opdaterIld();
   opdaterStore();
   opdaterMindre();
+  tegnReagens();
+  opdaterFE();
+  opdaterSCN();
   visGUI();
 
 }
 
 
 //Atom funktioner
-function nyCirkel(r) {
-  const x = random(155, 325);
-  const y = random(175, 365);
-  return {
-    x, y, r,
-    vx: random(-3, 3),
-    vy: random(-3, 3),
+function nyCirkel(r) 
+{
+  let x = random(GlasP1x + 40, GlasP4x - 40);
+  let y = random(GlasP1y + 5, GlasP3y - 5);
+
+  let speedX = random(-3,3);
+  let speedY = random(-3,3);
+
+  let cirkel = {
+    x: x, 
+    y: y, 
+    r: r, 
+    vx: speedX, 
+    vy: speedY
   };
+
+  return cirkel;
 }
 
 function tegnOgFlytAlle(arr, farve) {
@@ -131,10 +158,26 @@ function tegnOgFlytAlle(arr, farve) {
 }
 
 function flyt(c) {
-  c.x += c.vx;
-  c.y += c.vy;
-  if (c.x < GlasP1x + c.r || c.x > GlasP4x - c.r) c.vx *= -1;
-  if (c.y < GlasP1y + c.r || c.y > GlasP3y - c.r) c.vy *= -1;
+  c.x = c.x + c.vx;
+  c.y = c.y + c.vy;
+
+  //collision
+  if (c.x < GlasP1x + c.r) {
+   c.vx = c.vx * -1; 
+  }
+
+  if (c.x > GlasP4x - c.r) {
+   c.vx = c.vx * -1;
+  }
+
+  if (c.y < GlasP1y + c.r) {
+   c.vy = c.vy * -1;
+  }
+
+  if (c.y > GlasP3y - c.r) {
+   c.vy = c.vy * -1; 
+  }
+  
 }
 
 function afstand(a, b) {
@@ -222,11 +265,11 @@ function opdaterIs() {
     kulde();
   }
 
-  if (abs(xIs2 - xIs2Slut) <= 1)
+  /*if (abs(xIs2 - xIs2Slut) <= 1)
   {
     flytIs = false;
     kulde();
-  }
+  }*/
 }
 
 //Ild funktioner
@@ -299,12 +342,108 @@ function startMindre()
   mindreVolume = true;
 }
 
+function tegnReagens()
+{
+  push();
+  imageMode(CENTER);
+  rotate(100);
+  reagens.resize(30,120);
+  image(reagens, 60, -100);
+  pop();
+  
+  push();
+  imageMode(CENTER);
+  rotate(260);
+  reagens.resize(30,120);
+  image(reagens, -140, 360);
+  pop();
+
+  if(fe) 
+  {
+    fill(100,200,170);
+    circle(170, yFe, 20);
+  }
+
+  if (scn)
+  {
+    fill(150,100,250);
+    circle(300,yScn,20);
+  }
+}
+
+function startFE()
+{
+  reset();
+  fe = true;
+}
+
+
+function opdaterFE()
+{
+  if(fe)
+  {
+    yFe = yFe + 2;
+
+    if(yFe >= 185)
+    {
+      fe = false;
+      yFe = 95;
+
+      for (let i = 0; i < 5; i++) {
+        let nyGrøn = nyCirkel(3);
+        mangeCirklerLille.push(nyGrøn);
+      }
+    }
+  }
+}
+
+function startSCN()
+{
+  reset();
+  scn = true;
+}
+
+function opdaterSCN()
+{
+  if(scn)
+  {
+    yScn = yScn + 2;
+    
+    if(yScn == 185)
+    {
+      scn = false;
+      yScn = 95;
+
+      for (let i = 0; i < 5; i++) {
+        let nyGrøn = nyCirkel(3);
+        mangeCirklerStor.push(nyGrøn);
+      }
+    }
+  }
+}
+
 function visGUI() 
 {
+  //Tekstboks og tekst
   fill(255);
   stroke(0);
   rect(500,50,350,270);
 
+  fill(0);
+  noStroke();
+  textSize(15);
+  textWrap(WORD);
+  text('Dette er en simulation over den kemiske ligevægt:',505,65);
+  text('Fe3+(grøn) + SCN-(lilla) <-> FeSCN2+(rød)',525,85);
+  text('I en kemisk ligevægt kan du foretage forskellige indgreb. Indgreb i kemisk ligevægt kan beskrives ved Henry Le Chateliers princip:', 505,105,350);
+  push();
+  textAlign(CENTER);
+  textStyle(ITALIC);
+  text('Et ydre indgreb i et ligevægtssystem fremkalder en forskydning, som formindsker virkningen af indgrebet.',525,165,300);
+  pop();
+  text('For at foretage et indgreb i den simulere reaktion kan du trykke på en af det 6 knapper nedenunder. Oplever du at programmet ikke fungerer kan du trykke på knappen "Reset" ovenover.',505,240,350);
+
+  //Tekst over knapper
   fill(0);
   noStroke();
   textSize(20);
@@ -326,14 +465,16 @@ function fyld() {
 
 }
 
-function kulde() {
+function kulde() 
+{
   for (let i = orangeCirkler.length - 3; i >= 0; i--) {
     orangeCirkler.splice(i, 1);
   }
-  
 }
 
-function reset() {
+
+function reset() 
+{
   // Nulstil alle variabler og arrays
   xIs1 = -10;
   xIs2 = 360;
@@ -343,15 +484,15 @@ function reset() {
   storeVolume = false;
   mindreVolume = false;
 
-    // Variabler til glasset
-    GlasP1x = 150; //150
-    GlasP1y = 170; //170
-    GlasP2x = 150; //150
-    GlasP2y = 370; //370
-    GlasP3x = 330; //330
-    GlasP3y = 370; //370
-    GlasP4x = 330; //330
-    GlasP4y = 170; //170
+  // Variabler til glasset
+  GlasP1x = 150; //150
+  GlasP1y = 170; //170
+  GlasP2x = 150; //150
+  GlasP2y = 370; //370
+  GlasP3x = 330; //330
+  GlasP3y = 370; //370
+  GlasP4x = 330; //330
+  GlasP4y = 170; //170
 
   // Tøm alle arrays og genskab dem
   mangeCirklerLille = [];

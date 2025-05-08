@@ -423,16 +423,16 @@ function startStore() //Starter storvolume funktionen
 function opdaterStore() //Ændrer størrelsen på glasset
 {
   if(storeVolume)
-    {
-      GlasP1x = 120;
-      GlasP1y = 170;
-      GlasP2x = 120;
-      GlasP2y = 370;
-      GlasP3x = 360;
-      GlasP3y = 370;
-      GlasP4x = 360;
-      GlasP4y = 170;
-    }
+  {
+    GlasP1x = 120;
+    GlasP1y = 170;
+    GlasP2x = 120;
+    GlasP2y = 370;
+    GlasP3x = 360;
+    GlasP3y = 370;
+    GlasP4x = 360;
+    GlasP4y = 170;
+  }
 }
 
 function startMindre() //Starter lillevolume funktionen
@@ -444,16 +444,16 @@ function startMindre() //Starter lillevolume funktionen
 function opdaterMindre() //Ændrer størrelsen på glasset
 {
   if(mindreVolume)
-    {
-      GlasP1x = 180;
-      GlasP1y = 170;
-      GlasP2x = 180;
-      GlasP2y = 370;
-      GlasP3x = 300;
-      GlasP3y = 370;
-      GlasP4x = 300;
-      GlasP4y = 170;
-    }
+  {
+    GlasP1x = 180;
+    GlasP1y = 170;
+    GlasP2x = 180;
+    GlasP2y = 370;
+    GlasP3x = 300;
+    GlasP3y = 370;
+    GlasP4x = 300;
+    GlasP4y = 170;
+  }
 }
 
 //Viser alt GUI

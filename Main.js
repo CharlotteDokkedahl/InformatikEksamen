@@ -1,40 +1,48 @@
-//variabler
+//Globale variabler
+
+//Variabler til isterninger
 let icecube;
 let xIs1 = -10;
 let xIs2 = 360;
 const xIs1Slut = 60;
 const xIs2Slut = 230;
+flytIs = false;
 
+//Variabler til ild
+ildTaend = true;
+
+//Variabler til tilsætning af stoffer
 let yFe = 95;
 let yScn = 95;
 fe = false;
 scn = false;
 
-flytIs = false;
-ildTaend = true;
+//Variabler til volumer
 storeVolume = false;
 mindreVolume = false;
 
-let mangeCirklerLille = [];
-let mangeCirklerStor = [];
-let nyCirkler = [];
-let orangeCirkler = [];
+//Cirkel arrays
+let mangeCirklerLille = [];       //SCN-
+let mangeCirklerStor = [];       //Fe3+
+let nyCirkler = [];             //FeSCN2+
+let orangeCirkler = [];        //Usynlig
 
+//Antal af cirkler
 let antalCirklerLille = 10;
 let antalCirklerStor = 10;
 let antalOrangeCirkler = 5;
 
-// Variabler til glasset
-let GlasP1x = 150; //150
-let GlasP1y = 170; //170
-let GlasP2x = 150; //150
-let GlasP2y = 370; //370
-let GlasP3x = 330; //330
-let GlasP3y = 370; //370
-let GlasP4x = 330; //330
-let GlasP4y = 170; //170
+// Variabler til glassets koordinater
+let GlasP1x = 150;
+let GlasP1y = 170;
+let GlasP2x = 150;
+let GlasP2y = 370;
+let GlasP3x = 330;
+let GlasP3y = 370;
+let GlasP4x = 330;
+let GlasP4y = 170;
 
-function preload()
+function preload() //Loader billeder inden programmet loades
 {
   icecube = loadImage('icecubes.png');
   ild = loadImage('ild.png');
@@ -44,10 +52,9 @@ function preload()
 function setup() 
 {
   createCanvas(870, 450);
-
   angleMode(DEGREES);
 
-  //knapper
+  //Knapper
   let button1 = createButton('Større volume');
   button1.position(760, 390);
   button1.size(110,30);
@@ -83,15 +90,19 @@ function setup()
   button7.size(110,30);
   button7.mousePressed(reset);
 
-  for (let i = 0; i < antalCirklerLille; i++) {
+  //Starter arrays
+  for (let i = 0; i < antalCirklerLille; i++) 
+  {
     mangeCirklerLille.push(nyCirkel(3));
   }
 
-  for (let j = 0; j < antalCirklerStor; j++) {
+  for (let j = 0; j < antalCirklerStor; j++) 
+  {
     mangeCirklerStor.push(nyCirkel(3));
   }
 
-  for (let o = 0; o < antalOrangeCirkler; o++) {
+  for (let o = 0; o < antalOrangeCirkler; o++) 
+  {
     orangeCirkler.push(nyCirkel(5));
   }
 
@@ -100,19 +111,19 @@ function setup()
 function draw() 
 {
   background(220);
-  fyld();
+  fyld(); //Fylder glassets baggrund
 
+  //Kører funktioner der flytter og tegner cirklerne
   tegnOgFlytAlle(mangeCirklerLille, color(100, 200, 170));
   tegnOgFlytAlle(mangeCirklerStor, color(150, 100, 250));
   tegnOgFlytAlle(nyCirkler, color(200, 0, 0));
   tegnOgFlytAlle(orangeCirkler, color(250,250,250,0));
 
+  //Kører funktioner der får cirkler til at reagere
   reaktionLilleOgStor();
   reaktionOrangeOgRod();
 
-  reaktionLilleOgStor();
-  reaktionOrangeOgRod();
-
+  //Kører diverse funktioner
   tegnGlas();
   tegnIs();
   opdaterIs();
@@ -124,12 +135,12 @@ function draw()
   opdaterFE();
   opdaterSCN();
   visGUI();
-
 }
 
 
-//Atom funktioner
-function nyCirkel(r) 
+//Cirkel funktioner
+
+function nyCirkel(r) //Opretter en ny cirkel med tilfældig postition og hastighed
 {
   let x = random(GlasP1x + 40, GlasP4x - 40);
   let y = random(GlasP1y + 5, GlasP3y - 5);
@@ -143,13 +154,15 @@ function nyCirkel(r)
     r: r, 
     vx: speedX, 
     vy: speedY
-  };
+  }; 
 
   return cirkel;
 }
 
-function tegnOgFlytAlle(arr, farve) {
-  for (let i = arr.length - 1; i >= 0; i--) {
+function tegnOgFlytAlle(arr, farve) //Tegner og flytter cirkler i arrays
+{
+  for (let i = arr.length - 1; i >= 0; i--) 
+  {
     fill(farve);
     noStroke();
     circle(arr[i].x, arr[i].y, arr[i].r * 2);
@@ -157,37 +170,47 @@ function tegnOgFlytAlle(arr, farve) {
   }
 }
 
-function flyt(c) {
+function flyt(c) //Opdaterer position og vægkollision
+{
   c.x = c.x + c.vx;
   c.y = c.y + c.vy;
 
-  //collision
-  if (c.x < GlasP1x + c.r) {
+  //Kollision
+  if (c.x < GlasP1x + c.r) 
+  {
    c.vx = c.vx * -1; 
   }
 
-  if (c.x > GlasP4x - c.r) {
+  if (c.x > GlasP4x - c.r) 
+  {
    c.vx = c.vx * -1;
   }
 
-  if (c.y < GlasP1y + c.r) {
+  if (c.y < GlasP1y + c.r) 
+  {
    c.vy = c.vy * -1;
   }
 
-  if (c.y > GlasP3y - c.r) {
+  if (c.y > GlasP3y - c.r) 
+  {
    c.vy = c.vy * -1; 
   }
   
 }
 
-function afstand(a, b) {
+function afstand(a, b) //Regner afstand mellem cirkler
+{
   return dist(a.x, a.y, b.x, b.y);
 }
 
-function reaktionLilleOgStor() {
-  for (let i = mangeCirklerLille.length - 1; i >= 0; i--) {
-    for (let j = mangeCirklerStor.length - 1; j >= 0; j--) {
-      if (afstand(mangeCirklerLille[i], mangeCirklerStor[j]) < mangeCirklerLille[i].r + mangeCirklerStor[j].r) {
+function reaktionLilleOgStor() //Reaktion mellem lilla og grøn giver rød
+{
+  for (let i = mangeCirklerLille.length - 1; i >= 0; i--) 
+  {
+    for (let j = mangeCirklerStor.length - 1; j >= 0; j--) 
+    {
+      if (afstand(mangeCirklerLille[i], mangeCirklerStor[j]) < mangeCirklerLille[i].r + mangeCirklerStor[j].r) 
+      {
         const midX = (mangeCirklerLille[i].x + mangeCirklerStor[j].x) / 2;
         const midY = (mangeCirklerLille[i].y + mangeCirklerStor[j].y) / 2;
         const ny = nyCirkel(5);
@@ -202,10 +225,14 @@ function reaktionLilleOgStor() {
   }
 }
 
-function reaktionOrangeOgRod() {
-  for (let o = 0; o < orangeCirkler.length; o++) {
-    for (let r = nyCirkler.length - 1; r >= 0; r--) {
-      if (afstand(orangeCirkler[o], nyCirkler[r]) < orangeCirkler[o].r + nyCirkler[r].r) {
+function reaktionOrangeOgRod() //Reaktion mellem rød og usynlig giver lilla og grøn
+{
+  for (let o = 0; o < orangeCirkler.length; o++) 
+  {
+    for (let r = nyCirkler.length - 1; r >= 0; r--) 
+    {
+      if (afstand(orangeCirkler[o], nyCirkler[r]) < orangeCirkler[o].r + nyCirkler[r].r) 
+      {
         const rx = nyCirkler[r].x;
         const ry = nyCirkler[r].y;
         let nyLilla = nyCirkel(3);
@@ -223,7 +250,7 @@ function reaktionOrangeOgRod() {
   }
 }
 
-function tegnGlas() 
+function tegnGlas() //Tegner glasset der indeholder cirklerne
 {
   stroke(0);
   strokeWeight(2);
@@ -233,20 +260,21 @@ function tegnGlas()
 }
 
 //Is funktioner
-function tegnIs() 
+function tegnIs() //Indsætter billeder af isterninger
 {
   icecube.resize(115, 100);
   image(icecube, xIs1, 300);
   image(icecube, xIs2, 300);
 }
 
-function startFlytIs()
+function startFlytIs() //Starter isfunktionerne efter knappen trykkes
 {
-  reset();
+  reset(); //Resetter alle andre indgrebsfunktioner
   flytIs = true;
 }
 
-function opdaterIs() {
+function opdaterIs() //Får isterninger til at bevæge sig mod midten
+{
   if (flytIs) 
   {
     if (abs(xIs1 - xIs1Slut) > 1)
@@ -259,10 +287,14 @@ function opdaterIs() {
     }
   }
   
-  if (abs(xIs1 - xIs1Slut) <= 1)
+  if (abs(xIs1 - xIs1Slut) <= 1) //Stopper bevægelsen og starter kulde funktion
   {
     flytIs = false;
-    kulde();
+
+    for (let i = orangeCirkler.length - 3; i >= 0; i--) 
+    {
+      orangeCirkler.splice(i, 1); //Fjerner usynlige cirkler så der kommer flere røde
+    }
   }
 
   /*if (abs(xIs2 - xIs2Slut) <= 1)
@@ -273,13 +305,13 @@ function opdaterIs() {
 }
 
 //Ild funktioner
-function tegnIld()
+function tegnIld() //Indsætter billede af ild
 {
   ild.resize(110,110);
   image(ild, 185, 360);
 }
 
-function opdaterIld()
+function opdaterIld() //Fjerner rektangel så ild er synligt
 {
   if(ildTaend)
     {
@@ -289,60 +321,19 @@ function opdaterIld()
     }
 }
 
-function startIldTaend()
+function startIldTaend() //Starter ildfunktionerne
 {
-  reset();
+  reset(); //Resetter alle andre indgrebsfunktioner
   ildTaend = false;
   
-  for (let o = 0; o < antalOrangeCirkler; o++) {
+  for (let o = 0; o < antalOrangeCirkler; o++) //Laver usynlige cirkler så der kommer mindre røde cirkler
+  {
     orangeCirkler.push(nyCirkel(5));
   }
 }
 
-//Volume funktioner
-function opdaterStore()
-{
-  if(storeVolume)
-    {
-      GlasP1x = 120;
-      GlasP1y = 170;
-      GlasP2x = 120;
-      GlasP2y = 370;
-      GlasP3x = 360;
-      GlasP3y = 370;
-      GlasP4x = 360;
-      GlasP4y = 170;
-    }
-}
-
-function startStore()
-{
-  reset();
-  storeVolume = true;
-}
-
-function opdaterMindre()
-{
-  if(mindreVolume)
-    {
-      GlasP1x = 180;
-      GlasP1y = 170;
-      GlasP2x = 180;
-      GlasP2y = 370;
-      GlasP3x = 300;
-      GlasP3y = 370;
-      GlasP4x = 300;
-      GlasP4y = 170;
-    }
-}
-
-function startMindre()
-{
-  reset();
-  mindreVolume = true;
-}
-
-function tegnReagens()
+//Tilsætning af stoffer
+function tegnReagens() //Indsætter billeder af 2 reagensglas
 {
   push();
   imageMode(CENTER);
@@ -358,27 +349,27 @@ function tegnReagens()
   image(reagens, -140, 360);
   pop();
 
-  if(fe) 
+  if(fe) //Tegner lilla cirkel når fe = true
   {
     fill(100,200,170);
     circle(170, yFe, 20);
   }
 
-  if (scn)
+  if (scn) //Tegner grøn cirkel når scn = true
   {
     fill(150,100,250);
     circle(300,yScn,20);
   }
 }
 
-function startFE()
+function startFE() //Starter funktionen når der trykkes på knappen
 {
-  reset();
+  reset(); //Resetter alle andre indgreb
   fe = true;
 }
 
 
-function opdaterFE()
+function opdaterFE() //Får cirkel(Fe) til at falde ned og tilføjer flere grønne crikler
 {
   if(fe)
   {
@@ -397,13 +388,13 @@ function opdaterFE()
   }
 }
 
-function startSCN()
+function startSCN() //Starter funktionen når der trykkes på knappen
 {
-  reset();
+  reset(); //Resetter alle andre indgreb
   scn = true;
 }
 
-function opdaterSCN()
+function opdaterSCN() //Får cirkel(SCN) til at falde ned og tilføjer flere lilla cirkler
 {
   if(scn)
   {
@@ -422,6 +413,50 @@ function opdaterSCN()
   }
 }
 
+//Volumefunktioner
+function startStore() //Starter storvolume funktionen
+{
+  reset(); //Resetter alle andre indgreb
+  storeVolume = true;
+}
+
+function opdaterStore() //Ændrer størrelsen på glasset
+{
+  if(storeVolume)
+    {
+      GlasP1x = 120;
+      GlasP1y = 170;
+      GlasP2x = 120;
+      GlasP2y = 370;
+      GlasP3x = 360;
+      GlasP3y = 370;
+      GlasP4x = 360;
+      GlasP4y = 170;
+    }
+}
+
+function startMindre() //Starter lillevolume funktionen
+{
+  reset(); //Resetter alle andre indgreb
+  mindreVolume = true;
+}
+
+function opdaterMindre() //Ændrer størrelsen på glasset
+{
+  if(mindreVolume)
+    {
+      GlasP1x = 180;
+      GlasP1y = 170;
+      GlasP2x = 180;
+      GlasP2y = 370;
+      GlasP3x = 300;
+      GlasP3y = 370;
+      GlasP4x = 300;
+      GlasP4y = 170;
+    }
+}
+
+//Viser alt GUI
 function visGUI() 
 {
   //Tekstboks og tekst
@@ -451,29 +486,30 @@ function visGUI()
   text("Tempratur:", 505, 360);
   text("Stoffer:", 625, 360);
   text("Volume:", 745, 360);
+
+  //Tekst til antal cirkler
+  fill(0);
+  textSize(13);
+  text("Fe 3+ (grøn): " + mangeCirklerLille.length, 20, 190);
+  text("SCN - (lilla): " + mangeCirklerStor.length, 20, 205);
+  text("FeSCN 2+ (rød): " + nyCirkler.length, 20, 220);
 }
 
-function fyld() {
-  let rød=200;
-
- if (nyCirkler.length>4){ 
-  rød=255;
- }
- noStroke();
- fill(rød,100,100,150);
- rect(GlasP1x,GlasP1y,GlasP4x-GlasP1x,GlasP2y-GlasP1y);
-
-}
-
-function kulde() 
+function fyld() //Farver glassets baggrund 
 {
-  for (let i = orangeCirkler.length - 3; i >= 0; i--) {
-    orangeCirkler.splice(i, 1);
+  let rød = 200;
+
+  if (nyCirkler.length>4)
+  { 
+    rød = 255;
   }
+
+  noStroke();
+  fill(rød,100,100,150);
+  rect(GlasP1x,GlasP1y,GlasP4x-GlasP1x,GlasP2y-GlasP1y);
 }
 
-
-function reset() 
+function reset() //Resetter alle indgrebsfunktioner
 {
   // Nulstil alle variabler og arrays
   xIs1 = -10;
@@ -485,16 +521,16 @@ function reset()
   mindreVolume = false;
 
   // Variabler til glasset
-  GlasP1x = 150; //150
-  GlasP1y = 170; //170
-  GlasP2x = 150; //150
-  GlasP2y = 370; //370
-  GlasP3x = 330; //330
-  GlasP3y = 370; //370
-  GlasP4x = 330; //330
-  GlasP4y = 170; //170
+  GlasP1x = 150;
+  GlasP1y = 170;
+  GlasP2x = 150;
+  GlasP2y = 370;
+  GlasP3x = 330;
+  GlasP3y = 370; 
+  GlasP4x = 330; 
+  GlasP4y = 170; 
 
-  // Tøm alle arrays og genskab dem
+  // Tøm alle arrays og genskaber dem
   mangeCirklerLille = [];
   mangeCirklerStor = [];
   nyCirkler = [];

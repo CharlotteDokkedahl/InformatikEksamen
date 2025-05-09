@@ -22,15 +22,15 @@ storeVolume = false;
 mindreVolume = false;
 
 //Cirkel arrays
-let mangeCirklerLille = [];       //SCN-
-let mangeCirklerStor = [];       //Fe3+
+let mangeCirklerLilla = [];       //SCN-
+let mangeCirklerGron = [];       //Fe3+
 let nyCirkler = [];             //FeSCN2+
-let orangeCirkler = [];        //Usynlig
+let usynligCirkler = [];        //Usynlig
 
 //Antal af cirkler
-let antalCirklerLille = 10;
-let antalCirklerStor = 10;
-let antalOrangeCirkler = 5;
+let antalCirklerLilla = 10;
+let antalCirklerGron = 10;
+let antalUsynligCirkler = 5;
 
 // Variabler til glassets koordinater
 let GlasP1x = 150;
@@ -91,19 +91,19 @@ function setup()
   button7.mousePressed(reset);
 
   //Starter arrays
-  for (let i = 0; i < antalCirklerLille; i++) 
+  for (let i = 0; i < antalCirklerLilla; i++) 
   {
-    mangeCirklerLille.push(nyCirkel(3));
+    mangeCirklerLilla.push(nyCirkel(3));
   }
 
-  for (let j = 0; j < antalCirklerStor; j++) 
+  for (let j = 0; j < antalCirklerGron; j++) 
   {
-    mangeCirklerStor.push(nyCirkel(3));
+    mangeCirklerGron.push(nyCirkel(3));
   }
 
-  for (let o = 0; o < antalOrangeCirkler; o++) 
+  for (let o = 0; o < antalUsynligCirkler; o++) 
   {
-    orangeCirkler.push(nyCirkel(5));
+    usynligCirkler.push(nyCirkel(5));
   }
 
 }
@@ -114,14 +114,14 @@ function draw()
   fyld(); //Fylder glassets baggrund
 
   //Kører funktioner der flytter og tegner cirklerne
-  tegnOgFlytAlle(mangeCirklerLille, color(100, 200, 170));
-  tegnOgFlytAlle(mangeCirklerStor, color(150, 100, 250));
+  tegnOgFlytAlle(mangeCirklerLilla, color(100, 200, 170));
+  tegnOgFlytAlle(mangeCirklerGron, color(150, 100, 250));
   tegnOgFlytAlle(nyCirkler, color(200, 0, 0));
-  tegnOgFlytAlle(orangeCirkler, color(250,250,250,0));
+  tegnOgFlytAlle(usynligCirkler, color(250,250,250,0));
 
   //Kører funktioner der får cirkler til at reagere
-  reaktionLilleOgStor();
-  reaktionOrangeOgRod();
+  reaktionLillaOgGron();
+  reaktionUsynligOgRod();
 
   //Kører diverse funktioner
   tegnGlas();
@@ -203,35 +203,35 @@ function afstand(a, b) //Regner afstand mellem cirkler
   return dist(a.x, a.y, b.x, b.y);
 }
 
-function reaktionLilleOgStor() //Reaktion mellem lilla og grøn giver rød
+function reaktionLillaOgGron() //Reaktion mellem lilla og grøn giver rød
 {
-  for (let i = mangeCirklerLille.length - 1; i >= 0; i--) 
+  for (let i = mangeCirklerLilla.length - 1; i >= 0; i--) 
   {
-    for (let j = mangeCirklerStor.length - 1; j >= 0; j--) 
+    for (let j = mangeCirklerGron.length - 1; j >= 0; j--) 
     {
-      if (afstand(mangeCirklerLille[i], mangeCirklerStor[j]) < mangeCirklerLille[i].r + mangeCirklerStor[j].r) 
+      if (afstand(mangeCirklerLilla[i], mangeCirklerGron[j]) < mangeCirklerLilla[i].r + mangeCirklerGron[j].r) 
       {
-        const midX = (mangeCirklerLille[i].x + mangeCirklerStor[j].x) / 2;
-        const midY = (mangeCirklerLille[i].y + mangeCirklerStor[j].y) / 2;
+        const midX = (mangeCirklerLilla[i].x + mangeCirklerGron[j].x) / 2;
+        const midY = (mangeCirklerLilla[i].y + mangeCirklerGron[j].y) / 2;
         const ny = nyCirkel(5);
         ny.x = midX;
         ny.y = midY;
         nyCirkler.push(ny);
-        mangeCirklerLille.splice(i, 1);
-        mangeCirklerStor.splice(j, 1);
+        mangeCirklerLilla.splice(i, 1);
+        mangeCirklerGron.splice(j, 1);
         break;
       }
     }
   }
 }
 
-function reaktionOrangeOgRod() //Reaktion mellem rød og usynlig giver lilla og grøn
+function reaktionUsynligOgRod() //Reaktion mellem rød og usynlig giver lilla og grøn
 {
-  for (let o = 0; o < orangeCirkler.length; o++) 
+  for (let o = 0; o < usynligCirkler.length; o++) 
   {
     for (let r = nyCirkler.length - 1; r >= 0; r--) 
     {
-      if (afstand(orangeCirkler[o], nyCirkler[r]) < orangeCirkler[o].r + nyCirkler[r].r) 
+      if (afstand(usynligCirkler[o], nyCirkler[r]) < usynligCirkler[o].r + nyCirkler[r].r) 
       {
         const rx = nyCirkler[r].x;
         const ry = nyCirkler[r].y;
@@ -241,8 +241,8 @@ function reaktionOrangeOgRod() //Reaktion mellem rød og usynlig giver lilla og 
         let nyGron = nyCirkel(3);
         nyGron.x = rx + random(-3, 3);
         nyGron.y = ry + random(-3, 3);
-        mangeCirklerLille.push(nyLilla);
-        mangeCirklerStor.push(nyGron);
+        mangeCirklerLilla.push(nyLilla);
+        mangeCirklerGron.push(nyGron);
         nyCirkler.splice(r, 1);
         break;
       }
@@ -291,9 +291,9 @@ function opdaterIs() //Får isterninger til at bevæge sig mod midten
   {
     flytIs = false;
 
-    for (let i = orangeCirkler.length - 3; i >= 0; i--) 
+    for (let i = usynligCirkler.length - 3; i >= 0; i--) 
     {
-      orangeCirkler.splice(i, 1); //Fjerner usynlige cirkler så der kommer flere røde
+      usynligCirkler.splice(i, 1); //Fjerner usynlige cirkler så der kommer flere røde
     }
   }
 
@@ -326,9 +326,9 @@ function startIldTaend() //Starter ildfunktionerne
   reset(); //Resetter alle andre indgrebsfunktioner
   ildTaend = false;
   
-  for (let o = 0; o < antalOrangeCirkler; o++) //Laver usynlige cirkler så der kommer mindre røde cirkler
+  for (let o = 0; o < antalUsynligCirkler; o++) //Laver usynlige cirkler så der kommer mindre røde cirkler
   {
-    orangeCirkler.push(nyCirkel(5));
+    usynligCirkler.push(nyCirkel(5));
   }
 }
 
@@ -382,7 +382,7 @@ function opdaterFE() //Får cirkel(Fe) til at falde ned og tilføjer flere grøn
 
       for (let i = 0; i < 5; i++) {
         let nyGrøn = nyCirkel(3);
-        mangeCirklerLille.push(nyGrøn);
+        mangeCirklerLilla.push(nyGrøn);
       }
     }
   }
@@ -407,7 +407,7 @@ function opdaterSCN() //Får cirkel(SCN) til at falde ned og tilføjer flere lil
 
       for (let i = 0; i < 5; i++) {
         let nyGrøn = nyCirkel(3);
-        mangeCirklerStor.push(nyGrøn);
+        mangeCirklerGron.push(nyGrøn);
       }
     }
   }
@@ -490,8 +490,8 @@ function visGUI()
   //Tekst til antal cirkler
   fill(0);
   textSize(13);
-  text("Fe 3+ (grøn): " + mangeCirklerLille.length, 20, 190);
-  text("SCN - (lilla): " + mangeCirklerStor.length, 20, 205);
+  text("Fe 3+ (grøn): " + mangeCirklerLilla.length, 20, 190);
+  text("SCN - (lilla): " + mangeCirklerGron.length, 20, 205);
   text("FeSCN 2+ (rød): " + nyCirkler.length, 20, 220);
 }
 
@@ -531,20 +531,20 @@ function reset() //Resetter alle indgrebsfunktioner
   GlasP4y = 170; 
 
   // Tøm alle arrays og genskaber dem
-  mangeCirklerLille = [];
-  mangeCirklerStor = [];
+  mangeCirklerLilla = [];
+  mangeCirklerGron = [];
   nyCirkler = [];
-  orangeCirkler = [];
+  usynligCirkler = [];
 
-  for (let i = 0; i < antalCirklerLille; i++) {
-    mangeCirklerLille.push(nyCirkel(3));
+  for (let i = 0; i < antalCirklerLilla; i++) {
+    mangeCirklerLilla.push(nyCirkel(3));
   }
 
-  for (let j = 0; j < antalCirklerStor; j++) {
-    mangeCirklerStor.push(nyCirkel(3));
+  for (let j = 0; j < antalCirklerGron; j++) {
+    mangeCirklerGron.push(nyCirkel(3));
   }
 
-  for (let o = 0; o < antalOrangeCirkler; o++) {
-    orangeCirkler.push(nyCirkel(5));
+  for (let o = 0; o < antalUsynligCirkler; o++) {
+    usynligCirkler.push(nyCirkel(5));
   }
 }
